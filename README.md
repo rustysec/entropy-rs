@@ -1,2 +1,2 @@
 # entropy-rs
-Simple Shannon Entropy implementation in rust
+Simple Shannon Entropy implementation in Rust!
