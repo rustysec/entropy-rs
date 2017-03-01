@@ -6,6 +6,7 @@ This crate is designed to provide simple functionality for computing the entropy
 
 ## Example
 >Cargo.toml
+
 ```
 [Dependencies]
 entropy = { git = "https://github.com/rustysec/entropy-rs.git" }
