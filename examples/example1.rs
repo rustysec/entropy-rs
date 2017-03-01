@@ -1,9 +1,9 @@
-extern crate entropy;
+extern crate entropy_rs;
 
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
-use entropy::calculate;
+use entropy_rs::calculate;
 
 fn main() {
     if env::args().len() == 1 {

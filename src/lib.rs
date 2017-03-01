@@ -1,3 +1,14 @@
+//! This is documentation for the `entropy` crate.
+
+/// Computes the entropy of provided data
+///
+/// # Examples
+/// ```
+/// extern crate entropy_rs;
+/// use entropy_rs::calculate;
+/// let data = vec![0,1,2,3,4,5];
+/// println!("The entropy of the data is: {}", calculate(data));
+/// ```
 pub fn calculate(data: Vec<u8>) -> f64 {
     let mut frequency = vec![0.0_f64; 256];
     let mut probabilities = vec![0.0_f64; 256];

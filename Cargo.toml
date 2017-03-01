@@ -1,6 +1,6 @@
 [package]
-name = "entropy"
+name = "entropy-rs"
 version = "0.1.0"
-authors = ["russ"]
+authors = ["Russ Morris <rustysec@gmail.com>"]
 
 [dependencies]
