@@ -12,6 +12,7 @@ entropy = { git = "https://github.com/rustysec/entropy-rs.git" }
 ```
 
 >main.rs
+
 ```
 extern crate entropy_rs;
 
@@ -23,6 +24,7 @@ fn main() {
 }
 ```
 >Output
+
 ```
 The entropy for this data is: 2.584962500721156
 ```
