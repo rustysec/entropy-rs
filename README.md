@@ -9,7 +9,7 @@ This crate is designed to provide simple functionality for computing the entropy
 
 ```
 [Dependencies]
-entropy = { git = "https://github.com/rustysec/entropy-rs.git" }
+entropy-rs = { git = "https://github.com/rustysec/entropy-rs.git" }
 ```
 
 >main.rs
