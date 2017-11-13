@@ -4,16 +4,14 @@
 ///
 /// # Examples
 /// ```
-/// extern crate entropy_rs;
-/// use entropy_rs::calculate;
 /// let data = vec![0,1,2,3,4,5];
-/// println!("The entropy of the data is: {}", calculate(data));
+/// println!("The entropy of the data is: {}", entropy_rs::calculate(&data));
 /// ```
-pub fn calculate(data: Vec<u8>) -> f64 {
+pub fn calculate(data: &[u8]) -> f64 {
     let mut frequency = vec![0.0_f64; 256];
     let mut probabilities = vec![0.0_f64; 256];
     let mut entropy_sum = 0.0_f64;
-    
+
     unsafe {
         frequency.set_len(256);
         probabilities.set_len(256);
@@ -39,6 +37,6 @@ mod tests {
     #[test]
     fn simple_test1() {
         let data = vec![0,1,2,3,4,5];
-        assert_eq!(calculate(data), 2.5849626_f64);
+        assert_eq!(calculate(&data) as f32, 2.5849626_f32);
     }
 }

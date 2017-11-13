@@ -19,7 +19,7 @@ fn main() {
             Ok(mut f) => {
                 match f.read_to_end(&mut buffer) {
                     Ok(_) => {
-                        println!("{}: {}", file_name.clone(), calculate(buffer));
+                        println!("{}: {}", &file_name, calculate(&buffer));
                     },
                     Err(_) => {
                     }

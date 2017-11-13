@@ -11,6 +11,6 @@ fn main() {
         ];
 
     for test in tests {
-        println!("Entropy of \"{}\" is {}", test, calculate(test.as_bytes().to_vec()));
+        println!("Entropy of \"{}\" is {}", test, calculate(test.as_bytes()));
     }
 }
