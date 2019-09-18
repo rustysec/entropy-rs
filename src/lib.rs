@@ -1,42 +1,29 @@
-//! This is documentation for the `entropy` crate.
+//! # Entropy-rs
+//!
+//! Pure Rust entropy implementation(s)
+//! * [Shannon Entropy](https://en.wiktionary.org/wiki/Shannon_entropy)
+//!
+//! ```edition2018
+//! use entropy_rs::{Entropy, Shannon};
+//! let data = vec![0,1,2,4,5];
+//! assert_eq!(2.584962500721156, Shannon::quick(&data));
+//! ```
+//! ## Entropy
+//! The `Entropy` trait defines the interaction with the implementations
+//!
+//! ## Practical Usage
+//! For large files, the data should be read in blocks and fed through `input()`,
+//! once all data is read, `calculate()` will compute and return the entropy.
 
-/// Computes the entropy of provided data
-///
-/// # Examples
-/// ```
-/// let data = vec![0,1,2,3,4,5];
-/// println!("The entropy of the data is: {}", entropy_rs::calculate(&data));
-/// ```
-pub fn calculate(data: &[u8]) -> f64 {
-    let mut frequency = vec![0.0_f64; 256];
-    let mut probabilities = vec![0.0_f64; 256];
-    let mut entropy_sum = 0.0_f64;
+mod shannon;
+pub use shannon::Shannon;
 
-    unsafe {
-        frequency.set_len(256);
-        probabilities.set_len(256);
-    }
-
-    for i in 0..data.len() {
-        frequency[data[i] as usize] = (frequency[data[i] as usize] + 1.0_f64) as f64;
-    }
-
-    for i in 0..256 {
-        if frequency[i] == 0.0_f64 { continue; }
-        probabilities[i] = frequency[i] / ((data.len() as f64));
-        entropy_sum += probabilities[i] * probabilities[i].log(2.0_f64);
-    }
-
-    return -1.0 * entropy_sum;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn simple_test1() {
-        let data = vec![0,1,2,3,4,5];
-        assert_eq!(calculate(&data) as f32, 2.5849626_f32);
-    }
+/// Defines interaction with entropy algorithms
+pub trait Entropy {
+    /// add data to the calculation, this may be called as many times as necessary
+    fn input<T: AsRef<[u8]>>(&mut self, data: T);
+    /// compute and cache the entropy data. once this is called, no more data should be added
+    fn calculate(&mut self) -> f64;
+    /// readies the instance to compute new data
+    fn reset(&mut self);
 }

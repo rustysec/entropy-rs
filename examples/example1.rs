@@ -1,33 +1,33 @@
 extern crate entropy_rs;
 
+use entropy_rs::{Entropy, Shannon};
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
-use entropy_rs::calculate;
 
-fn main() {
+fn main() -> std::io::Result<()> {
     if env::args().len() == 1 {
         println!("Please specify one or more file names.");
-        return;
+        return Ok(());
     }
 
-    for i in 1..env::args().len() {
-        let file_name = env::args().nth(i).unwrap();
-        let mut buffer = Vec::new();
-        let file = File::open(file_name.clone());
-        match file {
-            Ok(mut f) => {
-                match f.read_to_end(&mut buffer) {
-                    Ok(_) => {
-                        println!("{}: {}", &file_name, calculate(&buffer));
-                    },
-                    Err(_) => {
-                    }
-                }
-            },
-            Err(e) => {
-                println!("Can't open {}", e);
-            }
-        }
-    }
+    const BLOCK_SIZE: usize = 1024;
+    env::args().skip(1).for_each(|ref file_name| {
+        let mut entropy = Shannon::new();
+        let _ = File::open(file_name).map(|mut file| {
+            while {
+                let mut buffer = vec![0; BLOCK_SIZE];
+                file.read(&mut buffer)
+                    .map(|len| {
+                        entropy.input(&buffer[0..len]);
+
+                        len == BLOCK_SIZE
+                    })
+                    .or_else(|_| Ok::<bool, std::io::Error>(false))
+                    .unwrap()
+            } {}
+        });
+        println!("{}: {}", file_name, entropy.calculate())
+    });
+    Ok(())
 }
