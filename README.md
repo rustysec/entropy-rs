@@ -1,5 +1,6 @@
 # entropy-rs
-Simple [Shannon Entropy](https://en.wiktionary.org/wiki/Shannon_entropy) implementation in pure Rust!
+Simple entropy implementation(s) in pure Rust
+* [Shannon Entropy](https://en.wiktionary.org/wiki/Shannon_entropy)
 
 ## Overview
 This crate is designed to provide simple functionality for computing the entropy of arbitrary data. 
@@ -14,20 +15,37 @@ entropy-rs = { git = "https://github.com/rustysec/entropy-rs.git" }
 
 >main.rs
 
-```
-extern crate entropy_rs;
-
-use entropy_rs::calculate;
+```rust
+use entropy_rs::Shannon;
 
 fn main() {
     let data = vec![0,1,2,3,4,5];
-    println!("The entropy of this data is: {}", calculate(data));
+    println!("The entropy of this data is: {}", Shannon::quick(data));
 }
 ```
 >Output
 
 ```
 The entropy for this data is: 2.584962500721156
+```
+
+>Large data size support:
+
+```rust
+use entropy_rs::{Entropy, Shannon};
+fn main() -> std::io::Result<()> {
+    const BLOCK_SIZE: usize = 1024;
+    let mut file = std::fs::File::open("./path/to/large/file")?;
+    let mut entropy = Shannon::new();
+    let mut data = vec![0; BLOCK_SIZE];
+    while {
+        let len = file.read(&mut data).unwrap();
+        entropy.input(&data[0..len]);
+        len == BLOCK_SIZE
+    } {}
+    println!("Shannon Entropy: {}", entropy.calculate());
+}
+
 ```
 
 ## Additional Examples
